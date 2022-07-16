@@ -11,10 +11,14 @@ from bs4 import BeautifulSoup
 
 
 def main():
-    url = "https://volby.cz/pls/ps2017nss/ps32?xjazyk=CZ&xkraj=13&xnumnuts=7204"
+    url = "https://volby.cz/pls/ps2017nss/ps32?xjazyk=CZ&xkraj=7&xnumnuts=5104"
     soup = zpracuj_odpoved_serveru(url)
     mesta = najdi_mesta(soup)
-    print(mesta)
+    udaje_mesta = zjisti_udaje_mesta(mesta)
+    for udaj in udaje_mesta:
+        print(udaj)
+    print(len(zjisti_udaje_mesta(mesta)))
+    #print(mesta)
     # for mesto in najdi_mesta(soup):
     #     print(mesto.prettify())
     #     odkaz = mesto.find("a", href=True)["href"]
@@ -31,10 +35,18 @@ def najdi_mesta(soup):
     return mesta
 
 
-def zjisti_odkaz_mesta(mesto):
-    odkaz = mesto.find("a", href=True)["href"]
-    print(odkaz)
-    pass
+def zjisti_udaje_mesta(mesta):
+    kod_nazev = []
+    for mesto in mesta:
+        nazev_mesta = mesto.find("td", {"class": "overflow_name"})
+        kod_mesta = mesto.find("td", {"class": "cislo"})
+        url_mesta = mesto.find("a", href=True)
+        if nazev_mesta is None:
+            continue
+        else:
+            kod_nazev.append([kod_mesta.text, nazev_mesta.text, url_mesta["href"]])
+    return kod_nazev
+
 
 
 if __name__ == "__main__":
