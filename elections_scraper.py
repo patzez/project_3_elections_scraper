@@ -36,7 +36,7 @@ def najdi_mesta(soup):
 
 
 def zjisti_udaje_mesta(mesta):
-    kod_nazev = []
+    udaje_mesta = []
     for mesto in mesta:
         nazev_mesta = mesto.find("td", {"class": "overflow_name"})
         kod_mesta = mesto.find("td", {"class": "cislo"})
@@ -44,8 +44,8 @@ def zjisti_udaje_mesta(mesta):
         if nazev_mesta is None:
             continue
         else:
-            kod_nazev.append([kod_mesta.text, nazev_mesta.text, url_mesta["href"]])
-    return kod_nazev
+            udaje_mesta.append([kod_mesta.text, nazev_mesta.text, url_mesta["href"]])
+    return udaje_mesta
 
 
 
