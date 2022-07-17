@@ -11,15 +11,19 @@ from bs4 import BeautifulSoup
 
 
 def main():
-    url = "https://volby.cz/pls/ps2017nss/ps32?xjazyk=CZ&xkraj=13&xnumnuts=7204"
+    url = "https://volby.cz/pls/ps2017nss/ps32?xjazyk=CZ&xkraj=13&xnumnuts=7203"
     soup = zpracuj_odpoved_serveru(url)
     mesta = najdi_mesta(soup)
     url_mest = zjisti_url_mesta(mesta)
     udaje_mesta = zjisti_udaje_mesta(mesta)
     volici_mesta = projdi_jednotliva_mesta(url_mest)
     udaje_stran = projdi_udaje_stran(url_mest)
+    nazvy_stran = projdi_nazvy_stran(url_mest[0])
+    print(len(nazvy_stran))
     # print(udaje_stran)
-    print(udaje_mesta[0], volici_mesta[0], url_mest[0], udaje_stran[0])
+    print(udaje_mesta[0], volici_mesta[0], len(udaje_stran[0]))
+    # for i in range(len(udaje_mesta)):
+    #     print(udaje_mesta[i], volici_mesta[i], url_mest[i], udaje_stran[i])
 
 
 def zpracuj_odpoved_serveru(url):
@@ -73,47 +77,34 @@ def projdi_udaje_stran(url_mest):
     hlasy_stran = []
     for url in url_mest:
         soup_mesta = zpracuj_odpoved_serveru(url)
-        hlasy = soup_mesta.find_all("div", {"class": "t2_470"})
-        celkovy = []
-        radky = []
-        celkem_hlasu = []
-        for hlas in hlasy:
-            neco = hlas.find_all("tr")
-            celkovy.extend(neco)
+        tabulka_hlasy = soup_mesta.find_all("div", {"class": "t2_470"})
+        celkova_tabulka = []
+        radky_tabulky = []
+        celkem_hlasu_mesta = []
+        for hlas in tabulka_hlasy:
+            radky = hlas.find_all("tr")
+            celkova_tabulka.extend(radky)
 
-        for celek in celkovy:
+        for celek in celkova_tabulka:
             radek = celek.find_all("td", {"class": "cislo"})
             if radek:
-                radky.append(radek)
+                radky_tabulky.append(radek)
             else:
                 continue
 
-        for radek in radky:
-            celkem_hlasu.append(radek[1].text.replace("\xa0", ""))
-        hlasy_stran.append(celkem_hlasu)
+        for radek in radky_tabulky:
+            celkem_hlasu_mesta.append(radek[1].text.replace("\xa0", ""))
+        hlasy_stran.append(celkem_hlasu_mesta)
     return hlasy_stran
 
 
-# soup_mesta = zpracuj_odpoved_serveru("https://volby.cz/pls/ps2017nss/ps311?xjazyk=CZ&xkraj=13&xobec=585068&xvyber=7204")
-# hlasy = soup_mesta.find_all("div", {"class": "t2_470"})
-# celkovy = []
-# radky = []
-# for hlas in hlasy:
-#     neco = hlas.find_all("tr")
-#     celkovy.extend(neco)
-#
-# for celek in celkovy:
-#     radek = celek.find_all("td", {"class": "cislo"})
-#     if radek:
-#         radky.append(radek)
-#     else:
-#         continue
-#
-# celkem_hlasu = []
-# for radek in radky:
-#     celkem_hlasu.append(radek[1].text.replace("\xa0", ""))
-#
-# print(len(celkem_hlasu))
+def projdi_nazvy_stran(url):
+    nazvy_stran = []
+    soup_mesta = zpracuj_odpoved_serveru(url)
+    tabulka_nazvy = soup_mesta.find_all("td", {"class": "overflow_name"})
+    for nazev in tabulka_nazvy:
+        nazvy_stran.append((nazev).text)
+    return nazvy_stran
 
 
 if __name__ == "__main__":
