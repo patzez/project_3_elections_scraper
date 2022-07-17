@@ -14,7 +14,8 @@ def main():
     url = "https://volby.cz/pls/ps2017nss/ps32?xjazyk=CZ&xkraj=13&xnumnuts=7204"
     soup = zpracuj_odpoved_serveru(url)
     mesta = najdi_mesta(soup)
-    projdi_jednotliva_mesta(mesta)
+    info_mesta = projdi_jednotliva_mesta(mesta)
+    print(info_mesta)
 
 
 def zpracuj_odpoved_serveru(url):
@@ -62,7 +63,7 @@ def projdi_jednotliva_mesta(mesta):
         platne_hlasy = volici.find_all("td", {"class": "cislo"})[7].text.replace("\xa0", "")
         udaje_mesta[i].extend((volici_v_seznamu, vydane_obalky, platne_hlasy))
 
-    print(udaje_mesta[-3])
+    return udaje_mesta
 
 
 
