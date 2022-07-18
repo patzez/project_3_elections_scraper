@@ -8,16 +8,14 @@ discord: patzez#8128
 
 import requests
 from bs4 import BeautifulSoup
+import csv
 
 
 def main():
     url = "https://volby.cz/pls/ps2017nss/ps32?xjazyk=CZ&xkraj=13&xnumnuts=7203"
-    vysledky_obce = vytvor_vysledky_obce(url)
-    hlavicka_tabulky = vytvor_hlavicku_tabulky(url)
-    print(hlavicka_tabulky)
-    print(vysledky_obce[0])
-    print(len(vysledky_obce))
-
+    nazev_souboru = "vysledky.csv"
+    zapis_do_csv(url, nazev_souboru)
+    print("Ukončuji elections_scraper.py")
 
 
 def zpracuj_odpoved_serveru(url):
@@ -122,6 +120,18 @@ def vytvor_vysledky_obce(url):
     for j in range(len(vysledky_obce)):
         vysledky_obce[j].extend(vysledky_stran[j])
     return vysledky_obce
+
+
+def zapis_do_csv(url, nazev_souboru):
+    print(f"Stahuji data z url: {url}")
+    vysledky_obce = vytvor_vysledky_obce(url)
+    hlavicka_tabulky = vytvor_hlavicku_tabulky(url)
+    print(f"Ukládám data do souboru: {nazev_souboru}")
+    with open(nazev_souboru, "w", newline="") as f:
+        thewriter = csv.writer(f)
+        thewriter.writerow(hlavicka_tabulky)
+        for radek in vysledky_obce:
+            thewriter.writerow(radek)
 
 
 if __name__ == "__main__":
