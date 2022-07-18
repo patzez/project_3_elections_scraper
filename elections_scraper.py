@@ -16,6 +16,7 @@ def main():
     nazev_souboru = "vysledky.csv"
     zapis_do_csv(url, nazev_souboru)
     print("Ukončuji elections_scraper.py")
+    #print
 
 
 def zpracuj_odpoved_serveru(url):
