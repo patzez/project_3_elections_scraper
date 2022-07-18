@@ -13,7 +13,9 @@ from bs4 import BeautifulSoup
 def main():
     url = "https://volby.cz/pls/ps2017nss/ps32?xjazyk=CZ&xkraj=13&xnumnuts=7203"
     vysledky_obce = vytvor_vysledky_obce(url)
-    print(vysledky_obce)
+    hlavicka_tabulky = vytvor_hlavicku_tabulky(url)
+    print(hlavicka_tabulky)
+    print(vysledky_obce[0])
     print(len(vysledky_obce))
 
 
@@ -102,7 +104,8 @@ def projdi_nazvy_stran(url_mesta):
     return nazvy_stran
 
 
-def vytvor_hlavicku_tabulky(url_mesta):
+def vytvor_hlavicku_tabulky(url):
+    url_mesta = zjisti_url_mesta(url)[0]
     hlavicka_tabulky = ["Kód obce", "Název obce", "Voliči v seznamu", "Vydané obálky", "Platné Hlasy"]
     nazvy_stran = projdi_nazvy_stran(url_mesta)
     hlavicka_tabulky.extend(nazvy_stran)
