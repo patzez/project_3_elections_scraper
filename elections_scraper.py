@@ -9,14 +9,19 @@ discord: patzez#8128
 import requests
 from bs4 import BeautifulSoup
 import csv
+import sys
 
 
 def main():
-    url = "https://volby.cz/pls/ps2017nss/ps32?xjazyk=CZ&xkraj=13&xnumnuts=7203"
-    nazev_souboru = "vysledky.csv"
-    zapis_do_csv(url, nazev_souboru)
+    # url = "https://volby.cz/pls/ps2017nss/ps32?xjazyk=CZ&xkraj=6&xnumnuts=4206"
+    # nazev_souboru = "vysledky.csv"
+    if len(sys.argv) != 3:
+        print("Pro spuštění je potřeba zapsat argumenty v následujícím tvaru:",
+              "elections_scraper.py 'URL' 'název_souboru.csv'",
+              sep="\n")
+    else:
+        zapis_do_csv(sys.argv[1], sys.argv[2])
     print("Ukončuji elections_scraper.py")
-    #print
 
 
 def zpracuj_odpoved_serveru(url):
