@@ -17,8 +17,8 @@ def main():
         print("Pro spuštění je potřeba zapsat argumenty v následujícím tvaru:",
               "elections_scraper.py 'URL' 'název_souboru.csv'",
               sep="\n")
-    elif "volby.cz" not in sys.argv[1]:
-        print("Špatně zadaná adresa webu!")
+    elif "volby.cz/pls/ps2017nss/" not in sys.argv[1]:
+        print("Špatně zadaná webová adresa okresu!")
     elif ".csv" not in sys.argv[2]:
         print("Název souboru musí končit '.csv' (např. 'vysledky.csv')")
     else:
