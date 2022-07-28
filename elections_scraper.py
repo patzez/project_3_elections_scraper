@@ -13,12 +13,14 @@ import sys
 
 
 def main():
-    # url = "https://volby.cz/pls/ps2017nss/ps32?xjazyk=CZ&xkraj=6&xnumnuts=4206"
-    # nazev_souboru = "vysledky.csv"
     if len(sys.argv) != 3:
         print("Pro spuštění je potřeba zapsat argumenty v následujícím tvaru:",
               "elections_scraper.py 'URL' 'název_souboru.csv'",
               sep="\n")
+    elif "volby.cz" not in sys.argv[1]:
+        print("Špatně zadaná adresa webu!")
+    elif ".csv" not in sys.argv[2]:
+        print("Název souboru musí končit '.csv' (např. 'vysledky.csv')")
     else:
         zapis_do_csv(sys.argv[1], sys.argv[2])
     print("Ukončuji elections_scraper.py")
@@ -142,6 +144,3 @@ def zapis_do_csv(url, nazev_souboru):
 
 if __name__ == "__main__":
     main()
-
-#format vysledne csv tabulky:
-#kod obce, nazev obce, volici v seznamu, vydane obalky, platne hlasy, kandidujici strany
