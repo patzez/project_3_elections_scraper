@@ -106,7 +106,7 @@ def projdi_nazvy_stran(url_mesta):
     soup_mesta = zpracuj_odpoved_serveru(url_mesta)
     tabulka_nazvy = soup_mesta.find_all("td", {"class": "overflow_name"})
     for nazev in tabulka_nazvy:
-        nazvy_stran.append((nazev).text)
+        nazvy_stran.append(nazev.text)
     return nazvy_stran
 
 
