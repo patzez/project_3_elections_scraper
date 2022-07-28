@@ -34,7 +34,9 @@ Ukázka projektu pro okres Vsetín:
 
 Spuštění programu:
 
-```python elections_scraper.py "https://volby.cz/pls/ps2017nss/ps32?xjazyk=CZ&xkraj=13&xnumnuts=7203" "vysledky_vsetin.csv"```
+```
+python elections_scraper.py "https://volby.cz/pls/ps2017nss/ps32?xjazyk=CZ&xkraj=13&xnumnuts=7203" "vysledky_vsetin.csv"
+```
 
 Průběh programu:
 
